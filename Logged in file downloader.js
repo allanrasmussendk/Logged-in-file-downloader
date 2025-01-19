@@ -1,6 +1,6 @@
 // Logged in file downloader
 // A file downloader that can download file(s) behind a log in / you need to be logged in before you can download the file(s).
-// Version 1.1.1
+// Version 1.1.2
 // Started: 2024-10-08 (2024-03-30)
 
 
@@ -112,20 +112,20 @@ class LoggedInFileDownloader {
 	}
 
 	start() {
-		var contentDiv = LoggedInFileDownloader.createDialog(750, 120, "Download", false, function() {
+		var contentDiv = LoggedInFileDownloader.createDialog(920, 120, false, "Download", false, function() {
 			LoggedInFileDownloader.that.startDownloading();
 		});
 
 		var header = document.createElement("h3");
 		contentDiv.appendChild(header);
-		header.innerHTML = "Logged in file downloader";
+		header.textContent = "Logged in file downloader";
 		header.style.textAlign = "center";
 		header.style.margin = "0px";
 		
 		var label = document.createElement("label");
 		contentDiv.appendChild(label);
 		label.for = urlTextareaId;
-		label.innerHTML = "URL(s) to download:";
+		label.textContent = "URL(s) to download:";
 
 		var br = document.createElement("br");
 		contentDiv.appendChild(br);
@@ -207,7 +207,7 @@ class LoggedInFileDownloader {
 			case apiTypeXHR :
 				this.reset();
 				
-				var contentDiv = LoggedInFileDownloader.createDialog(250, 30, "Cancel", true, function() {
+				var contentDiv = LoggedInFileDownloader.createDialog(250, 30, true, "Cancel", true, function() {
 					LoggedInFileDownloader.that.cancelled = true;
 					alert("Cancelled");
 				});
@@ -215,7 +215,7 @@ class LoggedInFileDownloader {
 				var statusLabel = document.createElement("label");
 				contentDiv.appendChild(statusLabel);
 				statusLabel.id = statusLabelId;
-				statusLabel.innerText = "Starting:";
+				statusLabel.textContent = "Starting:";
 				
 				if (useApiType == apiTypeAjax || useApiType == apiTypeAjaxBlob) {
 					this.checkJqueryLoaded();
@@ -245,7 +245,7 @@ class LoggedInFileDownloader {
 
 	setStatus(status) {
 		var statusLabel = document.getElementById(statusLabelId);
-		statusLabel.innerText = status;
+		statusLabel.textContent = status;
 	}
 
 	checkJqueryLoaded() {
@@ -502,7 +502,7 @@ class LoggedInFileDownloader {
 		LoggedInFileDownloader.jqueryLoaded = true;
 	}
 
-	static createDialog(width, height, buttonName, buttonCenter, buttonAction) {
+	static createDialog(width, height, setWidth, buttonName, buttonCenter, buttonAction) {
 		var documentElement = document.documentElement;
 		var pageXOffset = (window.pageXOffset || documentElement.scrollLeft) - (documentElement.clientLeft || 0);
 		var pageYOffset = (window.pageYOffset || documentElement.scrollTop)  - (documentElement.clientTop || 0); 
@@ -519,7 +519,9 @@ class LoggedInFileDownloader {
 		var clientWidth = document.getElementsByTagName("body")[0].clientWidth;
 		dialogDiv.style.left = (clientWidth / 2 + pageXOffset - width / 2) + "px";
 		dialogDiv.style.top = (100 + pageYOffset - height / 2) + "px"; // "screen.height / 2" doesn't work
-		dialogDiv.style.width = width + "px";
+		if (setWidth) {
+			dialogDiv.style.width = width + "px";
+		}
 		dialogDiv.style.zIndex = 1000;
 		dialogDiv.style.background = "lightgray";
 		dialogDiv.style.border = "thick solid #000000";
