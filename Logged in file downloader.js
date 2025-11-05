@@ -285,9 +285,9 @@ class LoggedInFileDownloader {
 			this.setStatus("Jquery missing (" + this.missing + " / " + jqueryMissingLimit + ")"); 
 			console.log("jquery missing " + e);
 			if (this.missing++ > jqueryMissingLimit) {
-				console.error("jquery loading faild!!!");
+				console.error("jquery loading failed!!!");
 				LoggedInFileDownloader.closeDialog();
-				alert("jquery loading faild!!!");
+				alert("jquery loading failed!!!");
 				this.start();
 				return ;
 			}
